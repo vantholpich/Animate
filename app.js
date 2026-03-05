@@ -116,14 +116,12 @@ function startWalking() {
     toggleBtn.textContent = 'Pause';
     toggleBtn.classList.add('walking');
     lottieBoy.play();
-    lottieDog.play();
 }
 
 function stopWalking() {
     toggleBtn.textContent = 'Walk';
     toggleBtn.classList.remove('walking');
     lottieBoy.pause();
-    lottieDog.pause();
 }
 
 function showArrival() {
@@ -135,5 +133,6 @@ function showArrival() {
 bgImg.onload = () => {
     requestAnimationFrame(loop);
     updateUI(); // Immediately sync UI with loaded stepsTaken
+    lottieDog.play(); // Continuous animation
     stopWalking(); // Start paused
 };
