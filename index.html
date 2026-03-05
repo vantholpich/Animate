@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 100,000 Step Journey</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <canvas id="stage"></canvas>
+
+        <div id="character-container">
+            <lottie-player id="boy-lottie" src="Cartoon Boy Walking Cycle.json" background="transparent" speed="1"
+                loop></lottie-player>
+            <lottie-player id="dog-lottie" src="happy dog.json" background="transparent" speed="1" loop></lottie-player>
+        </div>
+
+        <div id="ui-overlay">
+            <div class="stats-container">
+                <div class="stat-box">
+                    <span class="stat-label">Steps Taken</span>
+                    <span id="step-counter" class="stat-value">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">Remaining</span>
+                    <span id="steps-left" class="stat-value">100,000</span>
+                </div>
+            </div>
+
+
+            <div id="controls">
+                <button id="toggle-walk" class="btn">Start Walking</button>
+            </div>
+        </div>
+
+        <div id="arrival-modal" class="hidden">
+            <div class="modal-content">
+                <h1>Goal Reached!</h1>
+                <p>You've walked 100,000 steps to find your best friend.</p>
+                <button onclick="location.reload()" class="btn">Relive the Journey</button>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
