@@ -1,11 +1,12 @@
 const canvas = document.getElementById('stage');
 const ctx = canvas.getContext('2d');
 const stepCounterEl = document.getElementById('step-counter');
-const stepsLeftEl = document.getElementById('steps-left');
 const toggleBtn = document.getElementById('toggle-walk');
 const arrivalModal = document.getElementById('arrival-modal');
 const lottieBoy = document.getElementById('boy-lottie');
 const lottieDog = document.getElementById('dog-lottie');
+
+const walkInput = document.getElementById('walk-amount');
 
 // Configuration
 const TOTAL_STEPS = 10000;
@@ -14,6 +15,7 @@ const FRAME_DURATION = 80;
 
 let stepsTaken = 0;
 let isWalking = false;
+let stepsRemainingInSession = 0;
 let lastTime = 0;
 let accumulator = 0;
 let bgOffset = 0;
@@ -36,12 +38,21 @@ function update(deltaTime) {
 
     accumulator += deltaTime;
     if (accumulator >= FRAME_DURATION) {
-        stepsTaken += stepsPerFrame;
+        let currentIncrement = Math.min(stepsPerFrame, stepsRemainingInSession);
+        stepsTaken += currentIncrement;
+        stepsRemainingInSession -= currentIncrement;
         accumulator = 0;
+
+        if (stepsRemainingInSession <= 0) {
+            stepsRemainingInSession = 0;
+            isWalking = false;
+            stopWalking();
+        }
 
         if (stepsTaken >= TOTAL_STEPS) {
             stepsTaken = TOTAL_STEPS;
             isWalking = false;
+            stopWalking();
             showArrival();
         }
     }
@@ -53,9 +64,6 @@ function update(deltaTime) {
 
 function updateUI() {
     stepCounterEl.textContent = Math.floor(stepsTaken).toLocaleString();
-    stepsLeftEl.textContent = Math.floor(TOTAL_STEPS - stepsTaken).toLocaleString();
-
-
     const progress = (stepsTaken / TOTAL_STEPS) * 100;
 
     // Move boy toward dog (from 5% to 95%)
@@ -91,29 +99,39 @@ function loop(timestamp) {
 }
 
 toggleBtn.addEventListener('click', () => {
-    isWalking = !isWalking;
-    toggleBtn.textContent = isWalking ? 'Pause' : 'Continue Journey';
-    toggleBtn.classList.toggle('walking', isWalking);
-
     if (isWalking) {
-        lottieBoy.play();
-        lottieDog.play();
+        // Allow manual pause
+        isWalking = false;
+        stopWalking();
     } else {
-        lottieBoy.pause();
-        lottieDog.pause();
+        const amount = parseInt(walkInput.value) || 100;
+        stepsRemainingInSession = amount;
+        isWalking = true;
+        startWalking();
     }
 });
 
-function showArrival() {
-    arrivalModal.classList.remove('hidden');
+function startWalking() {
+    toggleBtn.textContent = 'Pause';
+    toggleBtn.classList.add('walking');
+    lottieBoy.play();
+    lottieDog.play();
+}
+
+function stopWalking() {
+    toggleBtn.textContent = 'Walk';
+    toggleBtn.classList.remove('walking');
     lottieBoy.pause();
     lottieDog.pause();
+}
+
+function showArrival() {
+    arrivalModal.classList.remove('hidden');
+    stopWalking();
 }
 
 // Start
 bgImg.onload = () => {
     requestAnimationFrame(loop);
-    lottieBoy.pause(); // Start paused
-    lottieDog.pause(); // Start paused
+    stopWalking(); // Start paused
 };
-

@@ -110,10 +110,47 @@ body {
     }
 }
 
+.stat-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 1.5rem;
+    font-weight: 700;
+    width: 120px;
+    text-align: center;
+    padding: 0.25rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.stat-input:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(88, 101, 242, 0.3);
+}
+
+/* Hide spin buttons */
+.stat-input::-webkit-inner-spin-button,
+.stat-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 #controls {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
     margin-bottom: 2rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .btn {

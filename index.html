@@ -29,14 +29,17 @@
                     <span id="step-counter" class="stat-value">0</span>
                 </div>
                 <div class="stat-box">
-                    <span class="stat-label">Remaining</span>
-                    <span id="steps-left" class="stat-value">100,000</span>
+                    <span class="stat-label">Journey Goal</span>
+                    <span class="stat-value">100,000</span>
                 </div>
             </div>
 
-
             <div id="controls">
-                <button id="toggle-walk" class="btn">Start Walking</button>
+                <div class="input-group">
+                    <label for="walk-amount" class="stat-label">Steps to Walk</label>
+                    <input type="number" id="walk-amount" class="stat-input" value="100" min="1">
+                </div>
+                <button id="toggle-walk" class="btn">Walk</button>
             </div>
         </div>
 
