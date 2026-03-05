@@ -13,7 +13,7 @@ const TOTAL_STEPS = 10000;
 let stepsPerFrame = 40;
 const FRAME_DURATION = 80;
 
-let stepsTaken = 0;
+let stepsTaken = parseInt(localStorage.getItem('stepsTaken')) || 0;
 let isWalking = false;
 let stepsRemainingInSession = 0;
 let lastTime = 0;
@@ -41,6 +41,7 @@ function update(deltaTime) {
         let currentIncrement = Math.min(stepsPerFrame, stepsRemainingInSession);
         stepsTaken += currentIncrement;
         stepsRemainingInSession -= currentIncrement;
+        localStorage.setItem('stepsTaken', stepsTaken);
         accumulator = 0;
 
         if (stepsRemainingInSession <= 0) {
@@ -133,5 +134,6 @@ function showArrival() {
 // Start
 bgImg.onload = () => {
     requestAnimationFrame(loop);
+    updateUI(); // Immediately sync UI with loaded stepsTaken
     stopWalking(); // Start paused
 };
